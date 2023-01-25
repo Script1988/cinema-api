@@ -14,7 +14,7 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-RUN mkdir -p /vol/web/media
+RUN mkdir -p /vol/web/photos
 
 RUN adduser \
     --disabled-password \
