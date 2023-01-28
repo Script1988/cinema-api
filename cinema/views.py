@@ -65,7 +65,7 @@ class MovieViewSet(
     mixins.RetrieveModelMixin,
     viewsets.GenericViewSet,
 ):
-    queryset = Movie.objects.all().prefetch_related("genres", "actors")
+    queryset = Movie.objects.prefetch_related("genres", "actors")
     serializer_class = MovieSerializer
     permission_classes = (IsAdminOrIfAuthenticatedReadOnly,)
 
@@ -149,8 +149,7 @@ class MovieViewSet(
 
 class MovieSessionViewSet(viewsets.ModelViewSet):
     queryset = (
-        MovieSession.objects.all()
-        .select_related("movie", "cinema_hall")
+        MovieSession.objects.select_related("movie", "cinema_hall")
         .annotate(
             tickets_available=(
                 F("cinema_hall__rows") * F("cinema_hall__seats_in_row")
@@ -216,7 +215,7 @@ class OrderViewSet(
     mixins.CreateModelMixin,
     GenericViewSet,
 ):
-    queryset = Order.objects.all().prefetch_related(
+    queryset = Order.objects.prefetch_related(
         "tickets__movie_session__movie", "tickets__movie_session__cinema_hall"
     )
     serializer_class = OrderSerializer
